@@ -1,47 +1,68 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
+
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+  <header class="header">
+    <SearchBar></SearchBar>
+    <NavBar class="header--nav"></NavBar>
   </header>
 
-  <main>
-    <TheWelcome />
+  <main class="main">
+    <RouterView></RouterView>
   </main>
+
+  <footer class="footer">
+      © IMDb Project made by Andreu Montagut & Laura Pernía
+  </footer>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script setup lang="ts">
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+import SearchBar from "@/components/SearchBar.vue";
+import NavBar from "@/components/NavBar.vue";
+</script>
 
-@media (min-width: 1024px) {
-  header {
+<style lang="scss">
+
+.header{
+  grid-area: header;
+  background-color: lightskyblue;
+  min-height: 10vh;
+  margin:-1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  width: 101vw;
+  top: 0.5rem;
+  z-index: 100;
+
+  .header--nav{
+    height: 5rem;
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+    align-items: center;
   }
 }
+
+.main{
+  grid-area: main;
+  min-height: 80vh;
+}
+
+.footer{
+  grid-area: footer;
+  background-color: lightskyblue;
+  height: 3rem;
+  margin-left:-1rem;
+  margin-right: -1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.sticky + .header{
+
+
+}
+
 </style>
