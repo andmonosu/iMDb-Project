@@ -3,7 +3,7 @@
 <template>
   <header class="header">
     <SearchBar></SearchBar>
-    <NavBar class="header--nav"></NavBar>
+    <NavBar></NavBar>
   </header>
 
   <main class="main">
@@ -30,17 +30,12 @@ import NavBar from "@/components/NavBar.vue";
   margin:-1rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   position: fixed;
   width: 101vw;
   top: 0.5rem;
   z-index: 100;
 
-  .header--nav{
-    height: 5rem;
-    display: flex;
-    align-items: center;
-  }
 }
 
 .main{
@@ -57,6 +52,7 @@ import NavBar from "@/components/NavBar.vue";
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 

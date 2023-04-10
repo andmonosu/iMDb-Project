@@ -44,27 +44,16 @@ export default {
     .layout--filters{
       grid-area: filters-container;
     }
-
     .layout--content{
       grid-area: cards-container;
       width: 100%;
-      display: grid;
-      grid-row-gap: 0.5rem;
-      grid-column-gap: 1rem;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-auto-rows: 15.5rem;
-    }
-
-    @media only screen and (max-width: 1000px) {
-      .layout--content{
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-    }
-
-    @media only screen and (max-width: 750px) {
-      .layout--content {
-        grid-template-columns: 1fr 1fr;
-      }
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      row-gap: 1rem;
+      column-gap: 1rem;
     }
 
   }

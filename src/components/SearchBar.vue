@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="header--search">
     <input type="text" class="header--searchbar" placeholder="Search film...">
     <img src="https://cdn-icons-png.flaticon.com/512/3917/3917132.png" alt="search-icon">
   </div>
@@ -22,6 +22,11 @@ export default defineComponent({
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     margin-right: -1.55rem;
+  }
+
+  .header--search{
+    position: absolute;
+    left: 0;
   }
 
 img{
