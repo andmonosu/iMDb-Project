@@ -4,10 +4,10 @@
     <div class='menu-button'></div>
   </label>
   <ul class="header--navbar">
-    <li @click="clickedLink" class="active header--navitem"><router-link to="/">Home</router-link></li>
-    <li @click="clickedLink" class="header--navitem"><router-link to="/catalog">Catalog</router-link></li>
-    <li @click="clickedLink" class="header--navitem"><router-link to="/daily">Daily Film</router-link></li>
-    <li @click="clickedLink" class="header--navitem"><router-link to="/liked"><img class="header--navitem__likedFilm" src="https://cdn-icons-png.flaticon.com/512/105/105220.png" alt="Liked films"></router-link></li>
+    <li  class="header--navitem"><router-link to="/">Home</router-link></li>
+    <li  class="header--navitem"><router-link to="/catalog">Catalog</router-link></li>
+    <li  class="header--navitem"><router-link to="/daily">Daily Film</router-link></li>
+    <li  class="header--navitem"><router-link to="/liked"><img class="header--navitem__likedFilm" src="https://cdn-icons-png.flaticon.com/512/105/105220.png" alt="Liked films"></router-link></li>
   </ul>
   <nav>
 
@@ -39,9 +39,6 @@ export default defineComponent({
     margin: 0;
     padding: 0;
 
-    .active{
-      background-color: deepskyblue;
-    }
 
     .header--navitem{
       height: 5rem;

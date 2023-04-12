@@ -6,9 +6,9 @@
     <button v-on:click="likeButtonClicked" class="card--likeBtn" id="liked">
         <i class="fa-solid fa-heart" style="color: #000000; height: 1.5rem;"/>
     </button>
-    <img  class="card--image" src="https://filetandvine.com/wp-content/uploads/2015/10/pix-vertical-placeholder.jpg?w=640">
+    <img  class="card--image" v-bind:src="film.poster">
     <p class="card--title">
-      Film Title
+      {{ film.primaryTitle }}
     </p>
   </div>
 </template>
@@ -20,8 +20,11 @@ export default defineComponent ({
   name: "CardComponent",
   data(){
     return{
-      isLiked: false
+      isLiked: false,
     }
+  },
+  props:{
+    film:Object,
   },
   methods:{
     likeButtonClicked():void{
@@ -44,7 +47,7 @@ export default defineComponent ({
 <style lang="scss">
   .card{
     background-color: white;
-    width: max-content;
+    width: min-content;
     display: grid;
     z-index: 10;
     align-self: center;
@@ -72,17 +75,20 @@ export default defineComponent ({
 
     .card--title{
       display: flex;
-      position: relative;
+      position: absolute;
       align-self: flex-end;
       justify-self: center;
-      margin-top:-2rem;
+      justify-content: center;
+      align-items: center;
+      width: 8rem;
       z-index: 2;
+      overflow: scroll;
     }
 
   }
 
   .card:hover{
-    z-index: 100;
+    z-index: 99;
     .card--image{
       height: 15.5rem;
       opacity: 0.4;

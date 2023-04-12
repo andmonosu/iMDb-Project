@@ -4,30 +4,26 @@
       <FilterList></FilterList>
     </div>
     <div class="layout--content">
-      <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
+      <CardComponent v-for="film in films" :film="film"/>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import FilterList from "@/components/FilterList.vue";
 import CardComponent from "@/components/CardComponent.vue";
+import { defineComponent } from "vue";
+import { mapState } from "vuex";
 
-export default {
+export default defineComponent({
   name: "Catalog",
-  components: {CardComponent, FilterList}
-}
+  components: {CardComponent, FilterList},
+  computed:{
+    ...mapState('film', {
+      films: "films",
+    })
+  }
+})
 </script>
 
 <style lang="scss">

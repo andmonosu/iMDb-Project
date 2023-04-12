@@ -1,15 +1,36 @@
 <template>
   <div class="header--search">
-    <input type="text" class="header--searchbar" placeholder="Search film...">
+    <input type="text" class="header--searchbar" placeholder="Search film..." v-on:input="input">
     <img src="https://cdn-icons-png.flaticon.com/512/3917/3917132.png" alt="search-icon">
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {defineComponent} from "vue";
-
 export default defineComponent({
-  name: "SearchBar"
+  name: "SearchBar",
+  data(){
+    return{
+      typing:false,
+      value:""
+    }
+  },
+  methods:{
+    input(event:Event):void{
+      this.typing=true;
+      this.search(event);
+    },search(event:Event):void{
+        setTimeout(()=>{
+          this.typing=false;
+          this.value=(event.target as HTMLInputElement).value;
+            }
+      ,1000);
+    }
+  },watch:{
+    value(value):void{
+      if(!this.typing) this.$store.dispatch('search/fetchData',value)
+    }
+  }
 })
 </script>
 

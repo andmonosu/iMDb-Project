@@ -5,35 +5,27 @@
     </button>
     <div class="scroll">
       <div class="item-list">
-        <CardComponent/>
-        <CardComponent/>
-        <CardComponent/>
-        <CardComponent/>
-        <CardComponent/>
-        <CardComponent/>
-        <CardComponent/>
-        <CardComponent/>
-        <CardComponent/>
-        <CardComponent/>
-        <CardComponent/>
-        <CardComponent/>
-
       </div>
     </div>
     <button class="right">
       <i class="fa-solid fa-arrow-right" style="color: #ffffff;"></i>
     </button>
+    <CardComponent v-for="film in films" :film="film" />
   </section>
 </template>
 
 <script>
 import CardComponent from "@/components/CardComponent.vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {defineComponent} from "vue";
 
-export default {
+export default defineComponent({
   name: "FilmsCarousel",
-  components: {FontAwesomeIcon, CardComponent}
-}
+  components: {FontAwesomeIcon, CardComponent},
+  props:{
+    films:Array
+  }
+})
 </script>
 
 <style lang="scss">
