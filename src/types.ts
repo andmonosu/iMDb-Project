@@ -1,27 +1,52 @@
 
 export interface RootState {
+    isCatalog:boolean
 }
 
+export interface LikedFilmsState{
+    films: Film[]
+}
 export interface SearchState {
-    gender:string,
-    minYear:number,
-    query:string,
-    minMinutes:number,
-    minRating:number,
+    genres:FacetValue[]
+    types:FacetValue[],
+    title:string,
+    sortFilter:string,
+    genresFilter:string,
+    typeFilter:string,
+    minYearFilter:number,
+    maxYearFilter:number,
+    minDurationFilter:number,
+    maxDurationFilter:number,
+    minScoreFilter:number,
+}
+
+
+export interface Facet {
+    type: string,
+    facet: string,
+    values: FacetValue[],
+}
+
+export interface FacetValue {
+    id: string,
+    value: string,
+    count: number,
+    filter: string
 }
 
 export interface searchOutput{
     hits:Film[],
-    facets:any[]
+    facets:Facet[]
 }
 export interface FilmState {
     films:Film[],
     recentFilms:Film[],
     trendingFilms:Film[],
-    filmsWithImage:Film[]
+    dailyFilmQuestionary:Film[],
 }
 
 export interface Film {
+    movieId: string;
     tconst: string,
     titleType: string,
     primaryTitle: string,

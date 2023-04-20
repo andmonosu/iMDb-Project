@@ -1,16 +1,18 @@
 <template>
   <section class="sliding">
-    <button class="left">
-      <i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i>
-    </button>
     <div class="scroll">
+      <button class="left">
+        <i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i>
+      </button>
+      <button class="right">
+        <i class="fa-solid fa-arrow-right" style="color: #ffffff;"></i>
+      </button>
       <div class="item-list">
+        <CardComponent v-for="film in films" :film="film" />
       </div>
     </div>
-    <button class="right">
-      <i class="fa-solid fa-arrow-right" style="color: #ffffff;"></i>
-    </button>
-    <CardComponent v-for="film in films" :film="film" />
+
+
   </section>
 </template>
 
@@ -34,7 +36,7 @@ export default defineComponent({
     display: flex;
     flex-flow: row nowrap;
     position:relative;
-    width: 99vw;
+    max-width: 99vw;
   }
 
   .scroll {
@@ -44,7 +46,11 @@ export default defineComponent({
     overflow-x: auto;
     overflow-y: hidden;
     height: 15.5rem;
+    max-width: 99vw;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
   }
+
   .scroll > * {
     flex: 0 0 auto;
   }

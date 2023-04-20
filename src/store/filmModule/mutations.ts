@@ -11,7 +11,7 @@ export const mutations: MutationTree<FilmState> = {
     setTrendingFilms(state,films:Film[]){
         state.trendingFilms=films;
     },
-    setFilmsWithImage(state,films:Film[]){
-        state.filmsWithImage=films;
+    setDailyFilms(state,films:Film[]){
+        state.dailyFilmQuestionary=films;
     }
 };

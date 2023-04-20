@@ -1,13 +1,13 @@
 <template>
   <div class="daily--container">
     <div class="daily--questioner">
-      <CardComponent/>
-      <div class="daily--valoration">
+      <CardComponent :film="film[0]"/>
+      <div v-if="filtersSelected<=4" class="daily--valoration">
         <h2>
           Valora la pelicula
         </h2>
-        <input type="range" min="0" max="10" value="5" class="slider" id="myRange">
-        <button class="daily--valoration__nextFilmBtn">
+        <CustomSlider :min="0" :max="10" :value="5" v-on:get-value="changeValue"></CustomSlider>
+        <button class="daily--valoration__nextFilmBtn" v-on:click="nextFilm">
             Next Film
         </button>
       </div>
@@ -15,13 +15,52 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import CardComponent from "@/components/CardComponent.vue";
+import {mapState} from "vuex";
+import {defineComponent} from "vue";
+import CustomSlider from "@/components/CustomSlider.vue";
+import {addFilters, isFilterSelected} from "../utils";
 
-export default {
+export default defineComponent( {
   name: "DailyFilm",
-  components: {CardComponent}
-}
+  components: {CustomSlider, CardComponent},
+  data(){
+    return{
+      filtersSelected:0,
+      filters:[] as string[],
+      sliderValue:0,
+    }
+  },
+  computed:{
+    ...mapState('film', {
+      film: "dailyFilmQuestionary",
+    })
+  },created():void{
+    this.$store.dispatch("search/fetchDaily",this.filters);
+  },
+  methods:{
+    nextFilm():void{
+      if(this.filtersSelected===0){
+        this.filters = addFilters(this.sliderValue,this.filters,[this.film.genres[0],this.film.startYear]);
+        this.filtersSelected = isFilterSelected(this.sliderValue,this.filtersSelected);
+        this.$store.dispatch("search/fetchDaily",this.filters);
+      }else if(this.filtersSelected===1){
+        this.filters = addFilters(this.sliderValue,this.filters,[this.film.startYear,this.film.runtimeMinutes]);
+        this.filtersSelected = isFilterSelected(this.sliderValue,this.filtersSelected);
+        this.$store.dispatch("search/fetchDaily",this.filters);
+      }else if(this.filtersSelected>=2&&this.filtersSelected<=3){
+        this.filters = addFilters(this.sliderValue,this.filters,[this.film.runtimeMinutes,this.film.averageRating]);
+        this.filtersSelected = isFilterSelected(this.sliderValue,this.filtersSelected);
+        this.$store.dispatch("search/fetchDaily",this.filters);
+      }else if(this.filtersSelected>=4){
+        this.$store.dispatch("search/fetchDaily",this.filters);
+      }
+    },changeValue(event:number):void{
+      this.sliderValue = event;
+    }
+  }
+})
 </script>
 
 <style lang="scss">
@@ -31,8 +70,9 @@ export default {
     justify-content: center;
     height: 100%;
     width: 100%;
+    color:white;
     .daily--questioner{
-      background-color: lightskyblue;
+      background-color: #B07156;
       border-radius: 1rem;
       display: grid;
       grid-template-rows: 20rem;
@@ -60,7 +100,7 @@ export default {
         height: 5vh;
         border-radius: 1rem;
         color: white;
-        background-color: deepskyblue;
+        background-color: sandybrown;
         border-color: white;
       }
     }

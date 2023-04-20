@@ -4,7 +4,7 @@
       <FilterList></FilterList>
     </div>
     <div class="layout--content">
-      <CardComponent v-for="film in films" :film="film"/>
+      <CardComponent v-for="film in films" :film="film" :liked="false"/>
     </div>
   </div>
 </template>
@@ -22,6 +22,11 @@ export default defineComponent({
     ...mapState('film', {
       films: "films",
     })
+  },
+  mounted(){
+    this.$store.commit('setIsCatalog',true);
+    this.$store.dispatch('search/fetchDataFiltered')
+
   }
 })
 </script>
@@ -50,6 +55,7 @@ export default defineComponent({
       flex-wrap: wrap;
       row-gap: 1rem;
       column-gap: 1rem;
+      padding: 1rem;
     }
 
   }
@@ -61,7 +67,10 @@ export default defineComponent({
       grid-template-areas:
         "filters-container"
         "cards-container"
-    ;
+      ;
+      .layout--content{
+        flex-direction: column;
+      }
     }
 
   }

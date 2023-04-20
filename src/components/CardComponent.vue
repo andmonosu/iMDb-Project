@@ -1,14 +1,16 @@
 <template>
   <div class="card">
-    <button v-on:click="likeButtonClicked" class="card--likeBtn" id="notLiked">
+    <button v-if="!isLiked" v-on:click="likeButtonClicked" class="card--likeBtn">
         <i class="fa-regular fa-heart" style="color: #000000; height: 1.5rem;"/>
       </button>
-    <button v-on:click="likeButtonClicked" class="card--likeBtn" id="liked">
+    <button v-if="isLiked" v-on:click="likeButtonClicked" class="card--likeBtn">
         <i class="fa-solid fa-heart" style="color: #000000; height: 1.5rem;"/>
     </button>
     <img  class="card--image" v-bind:src="film.poster">
     <p class="card--title">
-      {{ film.primaryTitle }}
+      {{ film.primaryTitle }}<br>
+      Genre: {{ film.genres[0] }}<br>
+      Year: {{ film.startYear }}
     </p>
   </div>
 </template>
@@ -20,27 +22,27 @@ export default defineComponent ({
   name: "CardComponent",
   data(){
     return{
-      isLiked: false,
+      isLiked: false
     }
   },
   props:{
     film:Object,
+    liked: Boolean,
   },
   methods:{
     likeButtonClicked():void{
       const isLiked:boolean = this.isLiked;
-      let likeIcon:HTMLButtonElement= (document.getElementById("liked") as HTMLButtonElement);
-      let notLikeIcon:HTMLButtonElement= (document.getElementById("notLiked") as HTMLButtonElement);
-      if(isLiked){
-        likeIcon.style.display = "block";
-        notLikeIcon.style.display = "none"
+      if(!isLiked){
+        this.$store.commit('likedFilms/addFilm',this.film);
       }else{
-        notLikeIcon.style.display = "block";
-        likeIcon.style.display = "none"
+        this.$store.commit('likedFilms/removeFilm',this.film);
       }
       this.isLiked = !isLiked;
     },
   },
+  mounted():void{
+    this.isLiked = this.liked
+  }
 })
 </script>
 
@@ -83,6 +85,7 @@ export default defineComponent ({
       width: 8rem;
       z-index: 2;
       overflow: scroll;
+      text-align: center;
     }
 
   }

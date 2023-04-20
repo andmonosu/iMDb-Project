@@ -1,11 +1,11 @@
 <template>
-  <h1>Trending Films</h1>
-  <FilmsCarousel :films="trendingFilms"></FilmsCarousel>
-  <h1>Recent Films</h1>
-  <FilmsCarousel :films="recentFilms"></FilmsCarousel>
+  <h1 class="home-title">Trending Films</h1>
+    <FilmsCarousel :films="trendingFilms"></FilmsCarousel>
+  <h1 class="home-title">Recent Films</h1>
+    <FilmsCarousel :films="recentFilms"></FilmsCarousel>
 </template>
 
-<script>
+<script lang="ts">
 import FilmsCarousel from "@/components/FilmsCarousel.vue";
 import {defineComponent} from "vue";
 import {mapState} from "vuex";
@@ -18,13 +18,17 @@ export default defineComponent({
       recentFilms: "recentFilms",
       trendingFilms: "trendingFilms",
     })
-  },mounted() {
+  },mounted():void{
     this.$store.dispatch('search/fetchTrending',"")
     this.$store.dispatch('search/fetchRecent',"")
   }
 })
 </script>
 
-<style scoped>
-
+<style lang="scss">
+  .home-title{
+    color: #B07156;
+    display: block;
+    text-align: center;
+  }
 </style>

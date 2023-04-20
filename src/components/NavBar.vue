@@ -4,10 +4,10 @@
     <div class='menu-button'></div>
   </label>
   <ul class="header--navbar">
-    <li  class="header--navitem"><router-link to="/">Home</router-link></li>
+    <li  class="header--navitem"><router-link to="/" v-on:click="catalogNotClicked">Home</router-link></li>
     <li  class="header--navitem"><router-link to="/catalog">Catalog</router-link></li>
-    <li  class="header--navitem"><router-link to="/daily">Daily Film</router-link></li>
-    <li  class="header--navitem"><router-link to="/liked"><img class="header--navitem__likedFilm" src="https://cdn-icons-png.flaticon.com/512/105/105220.png" alt="Liked films"></router-link></li>
+    <li  class="header--navitem"><router-link to="/daily" v-on:click="catalogNotClicked">Daily Film</router-link></li>
+    <li  class="header--navitem"><router-link to="/liked" v-on:click="catalogNotClicked"> <i class="fa-solid fa-heart" style="color: blanchedalmond; height: 1.5rem;"/></router-link></li>
   </ul>
   <nav>
 
@@ -20,12 +20,9 @@ import {defineComponent} from "vue";
 export default defineComponent({
   name: "NavBar",
   methods:{
-    clickedLink(event:Event):void{
-      let activeItem:HTMLLIElement = (document.getElementsByClassName("active")[0] as HTMLLIElement);
-      activeItem.classList.remove("active");
-      let componentClicked:HTMLLIElement = (event.target as HTMLLIElement);
-      componentClicked.className = "active header--navitem";
-    }
+    catalogNotClicked():void{
+      this.$store.commit('setIsCatalog',false)
+    },
   }
 })
 </script>
@@ -40,22 +37,26 @@ export default defineComponent({
     padding: 0;
 
 
+
     .header--navitem{
       height: 5rem;
       display: flex;
       align-items: center;
-
       padding-right: 1.5rem;
-      padding-left: 1.5rem;
+      margin-right: 2.5rem;
+
+      a{
+        color:blanchedalmond
+      }
 
       a:link{
-        color: black;
+        color:blanchedalmond;
         font-style: normal;
         text-decoration: none;
       }
 
       a:visited{
-        color: black;
+        color:blanchedalmond;
         font-style: normal;
         text-decoration: none;
       }
@@ -77,12 +78,13 @@ export default defineComponent({
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-right: 1rem;
   }
   .menu-button,
   .menu-button::before,
   .menu-button::after {
     display: block;
-    background-color: #fff;
+    background-color: blanchedalmond;
     position: absolute;
     height: 4px;
     width: 30px;
@@ -106,7 +108,7 @@ export default defineComponent({
   }
 
   #menu-toggle:checked + .menu-button-container .menu-button {
-    background: rgba(255, 255, 255, 0);
+    background: blanchedalmond;
   }
 
   #menu-toggle:checked + .menu-button-container .menu-button::after {
@@ -156,7 +158,7 @@ export default defineComponent({
       padding: 0.5em 0;
       width: 100%;
       color: white;
-      background-color: lightskyblue;
+      background-color: #B07156;
     }
   }
 

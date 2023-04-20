@@ -9,7 +9,7 @@ export const state: FilmState = {
     films:[],
     recentFilms:[],
     trendingFilms:[],
-    filmsWithImage:[]
+    dailyFilmQuestionary:[],
 };
 export const film: Module<FilmState, RootState> = {
     namespaced,

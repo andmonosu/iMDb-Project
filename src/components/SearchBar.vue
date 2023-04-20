@@ -1,12 +1,13 @@
 <template>
-  <div class="header--search">
+  <div v-if="isCatalog" class="header--search">
     <input type="text" class="header--searchbar" placeholder="Search film..." v-on:input="input">
-    <img src="https://cdn-icons-png.flaticon.com/512/3917/3917132.png" alt="search-icon">
+    <i class="fa-solid fa-magnifying-glass" style="color: #B07156;"></i>
   </div>
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue";
+import {mapState} from "vuex";
 export default defineComponent({
   name: "SearchBar",
   data(){
@@ -28,8 +29,16 @@ export default defineComponent({
     }
   },watch:{
     value(value):void{
-      if(!this.typing) this.$store.dispatch('search/fetchData',value)
+      if(!this.typing){
+        this.$store.commit('search/setTitle',value)
+        this.$store.dispatch('search/fetchData');
+      }
     }
+  },
+  computed:{
+    ...mapState({
+      isCatalog:"isCatalog"
+    })
   }
 })
 </script>
@@ -40,15 +49,24 @@ export default defineComponent({
     height: 1.5rem;
     border-radius: 0.75rem;
     border-style: none;
-    padding-right: 0.5rem;
+    padding-right: 1.75rem;
     padding-left: 0.5rem;
     margin-right: -1.55rem;
+    background-color: blanchedalmond;
+    color:#B07156;
+  }
+
+  .header--searchbar::placeholder{
+    color: #B07156;
   }
 
   .header--search{
     position: absolute;
     left: 0;
   }
+
+
+
 
 img{
   height: 1.25rem;
