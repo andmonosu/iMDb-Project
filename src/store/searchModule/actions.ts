@@ -45,20 +45,20 @@ export const actions: ActionTree<SearchState, RootState> = {
       filters.map((filter)=>{
           if(i===1){
               if((filter!==""||filter)){
+                  url+=queryParams[i]+((Number(filter))-5);
+              }
+              i++;
+              if((filter!==""||filter)){
+                  url+=queryParams[i]+((Number(filter))+5);
+              }
+              i++;
+          }else if(i===3){
+              if((filter!==""||filter)){
                   url+=queryParams[i]+((Number(filter))-10);
               }
               i++;
               if((filter!==""||filter)){
                   url+=queryParams[i]+((Number(filter))+10);
-              }
-              i++;
-          }else if(i===3){
-              if((filter!==""||filter)){
-                  url+=queryParams[i]+((Number(filter))-20);
-              }
-              i++;
-              if((filter!==""||filter)){
-                  url+=queryParams[i]+((Number(filter))+20);
               }
               i++;
           }else{

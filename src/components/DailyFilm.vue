@@ -47,7 +47,7 @@ export default defineComponent( {
       if (this.filtersSelected === 0) {
         this.filters = addFilters(this.sliderValue, this.filters, [this.film.genres[0], this.film.startYear as string],false);
         this.filtersSelected = isFilterSelected(this.sliderValue, this.filtersSelected);
-        this.$store.dispatch("search/fetchDaily", this.filters);
+        this.$store.dispatch("search/fetchDaily", this.filtersSelected===0?["","2010","","8"]:this.filters);
       } else if (this.filtersSelected === 1) {
         this.filters = addFilters(this.sliderValue, this.filters, [this.film.startYear as string, this.film.runtimeMinutes as string],false);
         this.filtersSelected = isFilterSelected(this.sliderValue, this.filtersSelected);
