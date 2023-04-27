@@ -25,7 +25,7 @@ export default defineComponent({
   },
   mounted(){
     this.$store.commit('setIsCatalog',true);
-    this.$store.dispatch('search/fetchDataFiltered')
+    //this.$store.dispatch('search/fetchData')
 
   }
 })

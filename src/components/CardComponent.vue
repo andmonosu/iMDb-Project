@@ -1,15 +1,15 @@
 <template>
   <div class="card">
     <button v-if="!isLiked" v-on:click="likeButtonClicked" class="card--likeBtn">
-        <i class="fa-regular fa-heart" style="color: #000000; height: 1.5rem;"/>
+        <i class="fa-regular fa-heart" style="color: #6e4736; height: 1.5rem;"/>
       </button>
     <button v-if="isLiked" v-on:click="likeButtonClicked" class="card--likeBtn">
-        <i class="fa-solid fa-heart" style="color: #000000; height: 1.5rem;"/>
+        <i class="fa-solid fa-heart" style="color: #6e4736; height: 1.5rem;"/>
     </button>
     <img  class="card--image" v-bind:src="film.poster">
     <p class="card--title">
       {{ film.primaryTitle }}<br>
-      Genre: {{ film.genres[0] }}<br>
+      Genre: {{ genres }}<br>
       Year: {{ film.startYear }}
     </p>
   </div>
@@ -17,12 +17,15 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
+import type {Film} from "@/types";
+import { saveLikedFilm } from "../utils";
 
 export default defineComponent ({
   name: "CardComponent",
   data(){
     return{
-      isLiked: false
+      isLiked: false,
+      genres:""
     }
   },
   props:{
@@ -42,26 +45,35 @@ export default defineComponent ({
   },
   mounted():void{
     this.isLiked = this.liked
+    for(const genre of (this.film as Film).genres){
+      this.genres +=genre+", "
+    }
   }
 })
 </script>
 
 <style lang="scss">
   .card{
-    background-color: white;
     width: min-content;
     display: grid;
     z-index: 10;
     align-self: center;
     justify-self: center;
+    background-color:#DFC49B;
+    border-radius: 1rem;
+    border:0.25rem solid #B07156;
 
     .card--image{
       display: grid;
       position:relative;
-      height: 14rem;
+      height: 15rem;
+      width: 10rem;
       z-index: 4;
-      align-self: center;
-      justify-self: center;
+      align-self: flex-start;
+      justify-self: flex-start;
+      top:-0.15rem;
+      border-top-left-radius: 0.75rem;
+      border-top-right-radius: 0.75rem;
     }
 
     .card--likeBtn{
@@ -76,16 +88,18 @@ export default defineComponent ({
     }
 
     .card--title{
-      display: flex;
-      position: absolute;
+      display: grid;
+      position: relative;
       align-self: flex-end;
       justify-self: center;
       justify-content: center;
       align-items: center;
       width: 8rem;
+      height: 8rem;
       z-index: 2;
       overflow: scroll;
       text-align: center;
+      color: #B07156;
     }
 
   }
@@ -93,7 +107,6 @@ export default defineComponent ({
   .card:hover{
     z-index: 99;
     .card--image{
-      height: 15.5rem;
       opacity: 0.4;
       transition: all 0.5s ease;
       z-index: 1;

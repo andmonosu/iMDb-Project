@@ -32,43 +32,43 @@ export default defineComponent({
       genre:"Filter by genre",
       type: "Filter by type",
       sortLabel:"Sort by",
-      sortValues:[{value:'startYear_desc'},{value:'startYear_asc'},{value:'averageRating_desc'},{value:'averageRating_asc'}]
+      sortValues:[{id:"Year descending",value:'startYear_desc'},{id:"Year ascending",value:'startYear_asc'},{id:"Average rating descending",value:'averageRating_desc'},{id:"Average rating ascending",value:'averageRating_asc'}]
     }
   },
   methods:{
     setGender(event:string):void{
       this.$store.commit("search/setGenresFilter",event);
-      setTimeout(this.$store.dispatch("search/fetchDataFiltered"),1000);
+      this.$store.dispatch("search/fetchDataFiltered");
     },
     setType(event:string):void{
       this.$store.commit("search/setTypeFilter",event);
-      setTimeout(this.$store.dispatch("search/fetchDataFiltered"),1000);
+      this.$store.dispatch("search/fetchDataFiltered");
     },
     setMinDuration(event:number):void{
       this.$store.commit("search/setMinDurationFilter",event);
-      setTimeout(this.$store.dispatch("search/fetchDataFiltered"),1000);
+      this.$store.dispatch("search/fetchDataFiltered");
     },
     setMaxDuration(event:number):void{
       this.$store.commit("search/setMaxDurationFilter",event);
-      setTimeout(this.$store.dispatch("search/fetchDataFiltered"),1000);
+      this.$store.dispatch("search/fetchDataFiltered");
 
     },
     setMinYear(event:number):void{
       this.$store.commit("search/setMinYearFilter",event);
-      setTimeout(this.$store.dispatch("search/fetchDataFiltered"),1000);
+      this.$store.dispatch("search/fetchDataFiltered");
     },
     setMaxYear(event:number):void{
       this.$store.commit("search/setMaxYearFilter",event);
-      setTimeout(this.$store.dispatch("search/fetchDataFiltered"),1000);
+      this.$store.dispatch("search/fetchDataFiltered");
 
     },
     setMinScore(event:number):void{
       this.$store.commit("search/setMinScoreFilter",event);
-      setTimeout(this.$store.dispatch("search/fetchDataFiltered"),1000);
+      this.$store.dispatch("search/fetchDataFiltered");
     },
     setSortFilter(event:string):void{
       this.$store.commit("search/setSortFilter", event);
-      setTimeout(this.$store.dispatch("search/fetchDataFiltered"),1000);
+      this.$store.dispatch("search/fetchDataFiltered");
     }
   },mounted(){
     this.$store.dispatch('search/fetchGenres');
@@ -107,13 +107,6 @@ export default defineComponent({
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
-  }
-
-  @media onlyscreen and (max-width: 560px) {
-    .filters{
-
-    }
-
   }
 
 

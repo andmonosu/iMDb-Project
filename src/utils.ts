@@ -1,4 +1,4 @@
-import type {searchOutput} from "./types";
+import type {Film, searchOutput} from "./types";
 export async function search(url:string, isDaily:boolean):Promise<searchOutput> {
     const response = await fetch(url)
     if(!response.ok){
@@ -12,7 +12,7 @@ export async function search(url:string, isDaily:boolean):Promise<searchOutput> 
         data.hits = data.hits.slice(0,20);
     }
     for(let film of data.hits){
-        const response2 = await fetch(`http://www.omdbapi.com/?apikey=df59daa9&t=${film.primaryTitle}`)
+        const response2 = await fetch(`http://www.omdbapi.com/?apikey=df59daa9&i=${film.tconst}`)
         if(!response2.ok){
             throw new Error('Error al obtener datos');
         }
@@ -35,11 +35,11 @@ export async function searchGenresAndTypes(url:string):Promise<searchOutput> {
 }
 
 
-export function addFilters(sliderValue:number,filters:string[],newFilters:string[]):string[]{
-    if(sliderValue>=7.5){
+export function addFilters(sliderValue:number,filters:string[],newFilters:string[],isFinal:boolean):string[]{
+    if(sliderValue>=7.5&&!isFinal){
         filters.push(newFilters[0]);
         filters.push(newFilters[1]);
-    }else if(sliderValue<=7.5&&sliderValue>=5){
+    }else if((sliderValue<=7.5&&sliderValue>=5)||(isFinal&&sliderValue>=5)){
         filters.push(newFilters[0]);
     }
     return filters;
@@ -48,8 +48,18 @@ export function addFilters(sliderValue:number,filters:string[],newFilters:string
 export function isFilterSelected(sliderValue:number,filterSelected:number):number{
     if(sliderValue>=7.5){
         filterSelected+=2
-    }else if(sliderValue<=7.5&&sliderValue>=5){
+    }else if((sliderValue<=7.5&&sliderValue>=5)){
         filterSelected++
     }
     return filterSelected;
+}
+
+export function saveLikedFilm(film:Film): void{
+    fetch("http://localhost:8080/movies/favorites/" + film.tconst, {
+        method: "POST",
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+        .then(response => response.json())
+        .then(json => console.log(json))
+        .catch(err => console.log(err));
 }

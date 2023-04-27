@@ -1,8 +1,8 @@
 <template>
   <div class="slider-container">
-    <input type="range" v-bind:min="min" v-bind:max="max" v-bind:value="sliderValue" class="slider" id="myRange"
-           ref="mySlider" v-on:input="changeSliderValue">
-    <p>{{ sliderValue }}</p>
+    <input type="range" v-bind:min="min" v-bind:max="max" v-bind:value="inputValue" class="slider" id="myRange"
+           ref="mySlider" v-on:input="input">
+    <p>{{ inputValue }}</p>
   </div>
 </template>
 
@@ -14,26 +14,42 @@ export default defineComponent({
   data(){
     return{
       sliderValue:0,
+      inputValue:0,
+      typing:false,
     }
   },
   methods:{
-    changeSliderValue(event:Event):void{
-      this.sliderValue = Number((event.target as HTMLInputElement).value);
-      let slider:HTMLInputElement = event.target as HTMLInputElement;
-      slider.style.backgroundSize = ((this.sliderValue - (this.min as number)) * 100 / ((this.max as number) - (this.min as number))) + '% 100%';
-      this.$emit('getValue',this.sliderValue);
+    input(event:Event):void{
+      this.typing=true;
+      this.changeSliderValue(event);
     },
+    changeSliderValue(event:Event):void{
+      let slider:HTMLInputElement = event.target as HTMLInputElement;
+      this.inputValue=Number((event.target as HTMLInputElement).value);
+      slider.style.backgroundSize = ((this.inputValue - (this.min as number)) * 100 / ((this.max as number) - (this.min as number))) + '% 100%';
+      setTimeout(()=>{
+            this.typing=false;
+            this.sliderValue=Number((event.target as HTMLInputElement).value);
+          }
+          ,3500);
+      },
   },
   mounted():void{
-    this.sliderValue = this.value as number;
+    this.inputValue = this.value as number;
     let slider:HTMLInputElement = this.$refs.mySlider as HTMLInputElement;
-    slider.style.backgroundSize = ((this.sliderValue - (this.min as number)) * 100 / ((this.max as number) - (this.min as number))) + '% 100%';
+    slider.style.backgroundSize = ((this.inputValue - (this.min as number)) * 100 / ((this.max as number) - (this.min as number))) + '% 100%';
   },
   props:{
     min:Number,
     max:Number,
     value:Number,
-  },
+  },watch: {
+    sliderValue(value): void {
+      if (!this.typing) {
+        this.$emit('getValue', value);
+      }
+    }
+  }
 
 })
 </script>

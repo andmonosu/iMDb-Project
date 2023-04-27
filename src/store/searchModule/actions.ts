@@ -19,7 +19,7 @@ export const actions: ActionTree<SearchState, RootState> = {
     },
 
     async fetchDataFiltered({commit, state}): Promise<void> {
-        const query = ('http://localhost:8080/movies?') + (state.typeFilter!==""?"type="+state.typeFilter:"")
+        const query = ('http://localhost:8080/movies?') +(state.title!==""?"&title="+state.title:"") +(state.typeFilter!==""?"&types="+state.typeFilter:"")
         + (state.genresFilter!==""?"&genres="+state.genresFilter:"") + (state.minDurationFilter?"&minRuntime="+state.minDurationFilter:"")
             + (state.maxDurationFilter?"&maxRuntime="+state.maxDurationFilter:"") +
             (state.minYearFilter?"&minYear="+state.minYearFilter:"")
@@ -32,20 +32,41 @@ export const actions: ActionTree<SearchState, RootState> = {
     },
     async fetchTrending({commit}): Promise<void> {
         const data: searchOutput = await search("http://localhost:8080/movies?minYear=2000&minRating=7&types=movie",false)
-        commit('film/setTrendingFilms', data.hits, {root: true})
+        commit('film/setTrendingFilms', data.hits.slice(1,20), {root: true})
     },
     async fetchRecent({commit}): Promise<void> {
        const data: searchOutput = await search("http://localhost:8080/movies?minYear=2023&types=movie",false)
        commit('film/setRecentFilms', data.hits, {root: true})
     },
     async fetchDaily({ commit }, filters:string[]): Promise<void> {
-      let queryParams:string[] = ['&genres=','&minYear=','&minRuntime=','&minRating=']
-        let url:string = 'http://localhost:8080/movies?types=movie';
-        let i:number=0;
-        filters.map((filter)=>{
-            url+=queryParams[i]+filter;
-            i++
-        })
+      let queryParams:string[] = ['&genres=','&minYear=','&maxYear=','&minRuntime=','&maxRuntime=','&minRating='];
+      let url:string = 'http://localhost:8080/movies?types=movie';
+      let i:number=0;
+      filters.map((filter)=>{
+          if(i===1){
+              if((filter!==""||filter)){
+                  url+=queryParams[i]+((Number(filter))-10);
+              }
+              i++;
+              if((filter!==""||filter)){
+                  url+=queryParams[i]+((Number(filter))+10);
+              }
+              i++;
+          }else if(i===3){
+              if((filter!==""||filter)){
+                  url+=queryParams[i]+((Number(filter))-20);
+              }
+              i++;
+              if((filter!==""||filter)){
+                  url+=queryParams[i]+((Number(filter))+20);
+              }
+              i++;
+          }else{
+              url+=queryParams[i]+filter;
+              i++;
+          }
+
+      })
         const data:searchOutput = await search(url,true);
         commit('film/setDailyFilms', data.hits, {root: true});
      },

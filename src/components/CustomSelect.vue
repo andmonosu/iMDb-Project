@@ -1,9 +1,9 @@
 <template>
   <div class="select-container">
-    <label for="gender">Filter by {{ type.toLowerCase() }}</label>
+    <label for="gender">{{ type }}</label>
     <select name="filter" id="filter" v-on:change="changeSelectValue">
       <option>None</option>
-      <option v-for="option in options" v-bind:value="option.value">{{ option.value }}</option>
+      <option v-for="option in options" v-bind:value="option.value">{{ option.id }}</option>
     </select>
   </div>
 </template>

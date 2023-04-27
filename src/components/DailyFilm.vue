@@ -1,23 +1,26 @@
 <template>
   <div class="daily--container">
     <div class="daily--questioner">
-      <CardComponent :film="film[0]"/>
-      <div v-if="filtersSelected<=4" class="daily--valoration">
+      <CardComponent :film="film"/>
+      <div v-if="filtersSelected<4" class="daily--valoration">
         <h2>
           Valora la pelicula
         </h2>
         <CustomSlider :min="0" :max="10" :value="5" v-on:get-value="changeValue"></CustomSlider>
         <button class="daily--valoration__nextFilmBtn" v-on:click="nextFilm">
-            Next Film
+          Next Film
         </button>
       </div>
+      <button v-if="filtersSelected>=4" class="daily--valoration__nextFilmBtn" v-on:click="nextFilm">
+        Next Film
+      </button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import CardComponent from "@/components/CardComponent.vue";
-import {mapState} from "vuex";
+import {mapGetters, mapState} from "vuex";
 import {defineComponent} from "vue";
 import CustomSlider from "@/components/CustomSlider.vue";
 import {addFilters, isFilterSelected} from "../utils";
@@ -33,26 +36,30 @@ export default defineComponent( {
     }
   },
   computed:{
-    ...mapState('film', {
-      film: "dailyFilmQuestionary",
+    ...mapGetters('film', {
+      film: "getDailyFilm",
     })
   },created():void{
-    this.$store.dispatch("search/fetchDaily",this.filters);
+    this.$store.dispatch("search/fetchDaily",["","2010","","8"]);
   },
   methods:{
-    nextFilm():void{
-      if(this.filtersSelected===0){
-        this.filters = addFilters(this.sliderValue,this.filters,[this.film.genres[0],this.film.startYear]);
-        this.filtersSelected = isFilterSelected(this.sliderValue,this.filtersSelected);
-        this.$store.dispatch("search/fetchDaily",this.filters);
-      }else if(this.filtersSelected===1){
-        this.filters = addFilters(this.sliderValue,this.filters,[this.film.startYear,this.film.runtimeMinutes]);
-        this.filtersSelected = isFilterSelected(this.sliderValue,this.filtersSelected);
-        this.$store.dispatch("search/fetchDaily",this.filters);
-      }else if(this.filtersSelected>=2&&this.filtersSelected<=3){
-        this.filters = addFilters(this.sliderValue,this.filters,[this.film.runtimeMinutes,this.film.averageRating]);
-        this.filtersSelected = isFilterSelected(this.sliderValue,this.filtersSelected);
-        this.$store.dispatch("search/fetchDaily",this.filters);
+    nextFilm():void {
+      if (this.filtersSelected === 0) {
+        this.filters = addFilters(this.sliderValue, this.filters, [this.film.genres[0], this.film.startYear as string],false);
+        this.filtersSelected = isFilterSelected(this.sliderValue, this.filtersSelected);
+        this.$store.dispatch("search/fetchDaily", this.filters);
+      } else if (this.filtersSelected === 1) {
+        this.filters = addFilters(this.sliderValue, this.filters, [this.film.startYear as string, this.film.runtimeMinutes as string],false);
+        this.filtersSelected = isFilterSelected(this.sliderValue, this.filtersSelected);
+        this.$store.dispatch("search/fetchDaily", this.filters);
+      } else if (this.filtersSelected === 2) {
+        this.filters = addFilters(this.sliderValue, this.filters, [this.film.runtimeMinutes as string,this.film.averageRating as string],false);
+        this.filtersSelected = isFilterSelected(this.sliderValue, this.filtersSelected);
+        this.$store.dispatch("search/fetchDaily", this.filters);
+      }else if(this.filtersSelected===3){
+        this.filters = addFilters(this.sliderValue, this.filters, [this.film.averageRating as string],true);
+        this.filtersSelected = isFilterSelected(this.sliderValue, this.filtersSelected);
+        this.$store.dispatch("search/fetchDaily", this.filters);
       }else if(this.filtersSelected>=4){
         this.$store.dispatch("search/fetchDaily",this.filters);
       }
@@ -75,14 +82,24 @@ export default defineComponent( {
       background-color: #B07156;
       border-radius: 1rem;
       display: grid;
-      grid-template-rows: 20rem;
+      grid-template-rows: 25rem;
       grid-template-columns: 20rem auto;
       grid-template-areas:
       "card-container valoration-container"
       ;
       padding:2rem;
     }
-
+    .daily--valoration__nextFilmBtn{
+      margin-top: 0.5rem;
+      width: fit-content;
+      height: 5vh;
+      border-radius: 1rem;
+      color: white;
+      background-color: sandybrown;
+      border-color: white;
+      justify-self: center;
+      align-self: center;
+    }
     .daily--valoration{
       grid-area: valoration-container;
       display: flex;
@@ -93,21 +110,11 @@ export default defineComponent( {
       margin-left: 1rem;
       margin-right: 1rem;
       align-items: center;
-
-      .daily--valoration__nextFilmBtn{
-        margin-top: 0.5rem;
-        width: fit-content;
-        height: 5vh;
-        border-radius: 1rem;
-        color: white;
-        background-color: sandybrown;
-        border-color: white;
-      }
     }
     @media only screen and (max-width: 600px) {
       .daily--questioner{
         grid-template-columns: auto;
-        grid-template-rows: 15.5rem auto;
+        grid-template-rows: 25rem auto;
         grid-template-areas:
         "card-container"
         "valoration-container"

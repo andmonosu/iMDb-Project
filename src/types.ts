@@ -46,7 +46,6 @@ export interface FilmState {
 }
 
 export interface Film {
-    movieId: string;
     tconst: string,
     titleType: string,
     primaryTitle: string,
