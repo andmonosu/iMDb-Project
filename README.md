@@ -17,5 +17,5 @@ After installing the dependencies you can run the project executing this command
 npm run dev
 ```
 Finally, if you want to run the full page you have to run the API that uses this project, which is in the following repository:
-[a link](https://github.com/laura-pb/search-academy-project )
+[API Repository](https://github.com/laura-pb/search-academy-project )
 
