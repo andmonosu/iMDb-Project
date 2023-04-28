@@ -1,5 +1,5 @@
 # iMDb-Project
-This project is the front end of a web app. On this website, you can find films through the search bar and filter the results. Also, you can find a feature which recommends films after rating some films that appear on the page.
+This project is the front end of a web-app. On this web-app, you can find films through the search bar and filter the results. Also, you can find a feature which recommends films after rating some films that appear on the page. Lastly, in this web-app you can a view where you can find recent and trending films.
 
 ## Project Setup
 
